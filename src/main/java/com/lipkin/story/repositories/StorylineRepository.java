@@ -7,6 +7,6 @@ import com.lipkin.story.models.Storyline;
 
 
 @Repository
-public interface StorylineRepository extends JpaRepository<Storyline, String> {
+public interface StorylineRepository extends JpaRepository<Storyline, Integer> {
 
 }

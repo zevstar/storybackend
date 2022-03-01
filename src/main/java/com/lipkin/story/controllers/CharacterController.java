@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lipkin.story.exceptions.ResourceNotFoundException;
 import com.lipkin.story.models.Character;
 import com.lipkin.story.repositories.CharacterRepository;
 
@@ -25,22 +26,34 @@ public class CharacterController {
 		return characterRepo.findAll();
 	}
 	// 2:20 
-//	@GetMapping("allchildnames/{childname}")
-//	public List<Childname> getChildnameByChildname(@PathVariable String childname) {
-//		List<Childname> childname = characterRepo.findByChildname(childname);
-//			if(childname.isEmpty()) {
-//				System.out.println(new ResourceNotFoundException("Child with the name " + childname + " not found."));
-//			}
-//			return characterRepo.findByChildname(childname);
-//	}
-	// 2/22 13:06
+	@GetMapping("allchildnames/name/{childname}")
+	public List<Character> getChildnameByChildname(@PathVariable String childname) {
+		List<Character> newchildname = characterRepo.findByChildname(childname);
+			if(newchildname.isEmpty()) {
+				System.out.println(new ResourceNotFoundException("Child with the name " + childname + " not found."));
+			}
+			return characterRepo.findByChildname(childname);
+	}
+	// 2/22 04:17
 	@PostMapping("add/childname")
 	public Character newChildname(@RequestBody Character childname) {
 		return characterRepo.save(childname);
 	}
-	
-	
-	
-	
+//	@PostMapping("add/parent1")
+//	public Character newParent1(@RequestBody Character parent1) {
+//		return characterRepo.save(parent1);
+//	}
+//	@PostMapping("add/parent2")
+//	public Character newParent2(@RequestBody Character parent2) {
+//		return characterRepo.save(parent2);
+//	}
+//	@PostMapping("add/donor1")
+//	public Character newDonor1(@RequestBody Character donor1) {
+//		return characterRepo.save(donor1);
+//	}
+//	@PostMapping("add/donor2")
+//	public Character newDonor2(@RequestBody Character donor2) {
+//		return characterRepo.save(donor2);
+//	}
 	
 }
