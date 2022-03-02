@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lipkin.story.exceptions.ResourceNotFoundException;
-import com.lipkin.story.models.Character;
+
 import com.lipkin.story.models.Storyline;
-import com.lipkin.story.repositories.CharacterRepository;
+
 import com.lipkin.story.repositories.StorylineRepository;
 
 @RestController

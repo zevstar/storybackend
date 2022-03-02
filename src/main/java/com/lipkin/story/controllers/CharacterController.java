@@ -91,6 +91,6 @@ public class CharacterController {
 		
 //		return updatedChild;
 		
-		return new ResponseEntity<Character>(updatedChildname, HttpStatus.CREATED);
+		return ResponseEntity.ok(updatedChildname);
 	}
 }
