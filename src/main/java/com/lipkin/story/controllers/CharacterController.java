@@ -3,9 +3,13 @@ package com.lipkin.story.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +38,13 @@ public class CharacterController {
 			}
 			return characterRepo.findByChildname(childname);
 	}
+	
+	@GetMapping("childname/id/{id}")
+	public ResponseEntity<Character> getChildnameById(@PathVariable int id) {
+		Character childname = characterRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Childname not found."));
+				return ResponseEntity.ok(childname);
+	}
 	// 2/22 04:17
 	@PostMapping("add/childname")
 	public Character newChildname(@RequestBody Character childname) {
@@ -55,5 +66,31 @@ public class CharacterController {
 //	public Character newDonor2(@RequestBody Character donor2) {
 //		return characterRepo.save(donor2);
 //	}
+	@DeleteMapping("childname/delete/{id}")
+	public ResponseEntity<String> deleteChildname(@PathVariable int id) {
+		characterRepo.findById(id)
+			.orElseThrow(() -> new ResourceNotFoundException("Childname not found."));
+		String message = "Child entry has been deleted.";
+		characterRepo.deleteById(id);
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+//	02/22 5:16
 	
+	@PutMapping("childname/{id}")
+	public ResponseEntity<Character> updatedChildname(@PathVariable int id, @RequestBody Character newChildnameInfo) {
+		Character foundChildname = characterRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Childname not found"));
+		
+		foundChildname.setChildname(newChildnameInfo.getChildname());
+		foundChildname.setParent1(newChildnameInfo.getParent1());
+		foundChildname.setParent2(newChildnameInfo.getParent2());
+		foundChildname.setDonor1(newChildnameInfo.getDonor1());
+		foundChildname.setDonor2(newChildnameInfo.getDonor2());
+		
+		Character updatedChildname = characterRepo.save(foundChildname);
+		
+//		return updatedChild;
+		
+		return new ResponseEntity<Character>(updatedChildname, HttpStatus.CREATED);
+	}
 }
